@@ -1,0 +1,20 @@
+{
+  "name": "project-note-taker",
+  "version": "1.0.0",
+  "description": "![license](https://img.shields.io/badge/License-MIT-brightgreen)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Djenkins88/Project-Note-Taker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Djenkins88/Project-Note-Taker/issues"
+  },
+  "homepage": "https://github.com/Djenkins88/Project-Note-Taker#readme"
+}
