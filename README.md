@@ -1,4 +1,5 @@
 # Project-Note-Taker
+  ![img1.png]
 
   ![license](https://img.shields.io/badge/License-MIT-brightgreen)
 
