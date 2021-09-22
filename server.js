@@ -1,101 +1,77 @@
-/*const express = require("express");
-const PORT = process.env.PORT || 3000;
+const express = require('express');
+const fs = require("fs");
+const path = require("path");
+const notes = require("./db/db.json");
+const uuid = require("uuid");
 
-// Express configuration
-//Tells node that we are creating an 'express' server
+
+
+// EXPRESS CONFIGURATION
+// This sets up the basic properties for our express server
+
+// Tells node that we are creating an "express" server
 const app = express();
 
-// Sets port.
+// Sets an initial port. We"ll use this later in our listener
+const PORT = process.env.PORT || 8080;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
 
-// ROUTES
-require('./routes/apiRoutes')(app);
-require('./routes/htmlRoutes')(app);
-
-app.listen(PORT, function() {
-    console.log(`App listening on PORT: ${PORT}`);
-});*/
-
-// import
-const express = require('express');
-const app = express();
-const path = require('path');
-const PORT = process.env.PORT || 3000;
-const generateUniqueId = require('generate-unique-id');
-
-const File = require('fs');
-
-
- // parsing data
-app.use(express.urlencoded({
-    extended: true
-}));
-app.use(express.json());
-
-// to push data into
-let notes;
-
-// id gen
-const id = generateUniqueId({
-    length: 10,
-    useLetters: false
-})
-
-// static files
 app.use(express.static('public'));
 
-// routes
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
 
-app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '/public/notes.html')));
-
-app.get('/api/notes', (req, res) => res.sendFile(path.join(__dirname, './db/db.json')));
-
-app.get('/api/notes/:id', (req, res) => res.sendFile(path.join(__dirname, './db/db.json')));
-
-// POST routes
-app.post('/api/notes', (req, res) => {
-
-    newNote = req.body;
-
-    newNote.id = id;
-
-    File.readFile('./db/db.json', 'utf8', (err, data) => {
-        if (err) throw err;
-
-        notes = JSON.parse(data);
-
-        notes.push(newNote)
-
-        File.writeFile('./db/db.json', JSON.stringify(notes), (err) => {
-            if (err) throw err;
-            res.send(notes)
-        })
-
-    })
+app.get("/api/notes", (req, res) => { 
+    res.sendFile(path.join(__dirname, "./db/db.json"));
+});
+    
+//function to add new note
+app.post("/api/notes", (req, res) => {
+    // Read data from 'db.json' file
+    const notes = JSON.parse(fs.readFileSync("./db/db.json"));
+        
+    // Extracted new note from request body.  
+    const newNotes = req.body;
+            
+    newNotes.id = uuid.v4();
+    // Pushed new note in notes file 'db.json'
+    notes.push(newNotes);
+        
+    // Written notes data to 'db.json' file
+    fs.writeFileSync('./db/db.json', JSON.stringify(notes));
+        
+    // Send response
+    res.json(notes);
 });
 
-// DELETE route
-app.delete('/api/notes/:id', (req, res) => {
+//fuction for deleting
+app.delete("/api/notes/:id", (req, res) => {
+    // Read data from 'db.json' file
+    const notes = JSON.parse(fs.readFileSync("./db/db.json", ));
+        
+    // filter data to get notes except the one to delete
+    const delNote = notes.filter((rmvNote) => rmvNote.id !== req.params.id);
+        
+    // Write new data to 'db.json' file
+    fs.writeFileSync('./db/db.json', JSON.stringify(delNote));
+    
+    // Send response
+    res.json(delNote);
+});
 
-    File.readFile('./db/db.json', (err, data) => {
-        if (err) throw err;
+//Homepage calls
+app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "/public/index.html"))
+});
 
-        const notes = JSON.parse(data);
-        const remainder = notes.filter(note => note.id != req.params.id)
+app.get("/notes", function (req, res) {
+    res.sendFile(path.join(__dirname, "/public/notes.html"))
+});
 
-        File.writeFile('./db/db.json', JSON.stringify(remainder), err => {
-            if (err) throw err;
-            res.send(remainder)
-        })
-    })
-})
+app.listen(PORT, () => {
+    console.log(`App listening on PORT: ${PORT}`);
+});
 
-
-app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
 
 

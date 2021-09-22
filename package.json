@@ -2,7 +2,7 @@
   "name": "project-note-taker",
   "version": "1.0.0",
   "description": "![license](https://img.shields.io/badge/License-MIT-brightgreen)",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Djenkins88/Project-Note-Taker#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "uuid": "^8.3.2"
   }
 }
