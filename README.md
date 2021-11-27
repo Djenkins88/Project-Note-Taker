@@ -4,7 +4,6 @@
 
   ![Untitled_ Nov 27, 2021 4_40 PM](https://user-images.githubusercontent.com/81633522/143722443-96c729b2-35c1-4dca-b951-b5302265383a.gif)
 
-https://drive.google.com/file/d/1kQ_gGhzz3GJbrXuhCT27OdjSZghQfQ28/view?usp=sharing
 
   ![license](https://img.shields.io/badge/License-MIT-brightgreen)
 
